@@ -1,25 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import { Component } from "react";
+import data from "./data.js";
+import style from "./styles/App.styles.js";
+import Header from "./Header.js";
+import Frame from "./Frame.js";
+import Product from "./Product.js";
+import AllProducts from "./AllProducts.js";
+class App extends Component {
+  constructor(props) {
+    super(props);
+  }
+  componentDidMount = () => {};
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  render() {
+    return (
+      <div style={style.mainContainer}>
+        <Header></Header>
+        <Frame></Frame>
+
+        <Product></Product>
+        <AllProducts></AllProducts>
+      </div>
+    );
+  }
 }
-
 export default App;
