@@ -5,20 +5,45 @@ import Header from "./Header.js";
 import Frame from "./Frame.js";
 import Product from "./Product.js";
 import AllProducts from "./AllProducts.js";
+import ProductInfo from "./ProductInfo.js";
+import OpenProductButton from "./OpenProductButton.js";
 class App extends Component {
   constructor(props) {
     super(props);
   }
+  state = { isInfoOpen: false, isAllProductOpen: false, shadeSelected: {} };
   componentDidMount = () => {};
+  setInfoOpen = (state) => {
+    this.setState({ isInfoOpen: state });
+  };
+  setAllProductOpen = (state) => {
+    this.setState({ isAllProductOpen: state });
+  };
 
+  handleSelectShade = (shade) => {
+    console.log(shade);
+    this.setState({ shadeSelected: shade });
+  };
   render() {
+    const { isInfoOpen, shadeSelected, isAllProductOpen } = this.state;
     return (
       <div style={style.mainContainer}>
         <Header></Header>
         <Frame></Frame>
-
-        <Product></Product>
-        <AllProducts></AllProducts>
+        {isInfoOpen && (
+          <ProductInfo setInfoOpen={this.setInfoOpen}></ProductInfo>
+        )}
+        <Product
+          setInfoOpen={this.setInfoOpen}
+          shadeSelected={shadeSelected}
+          handleSelectShade={this.handleSelectShade}
+        ></Product>
+        <OpenProductButton
+          setAllProductOpen={this.setAllProductOpen}
+        ></OpenProductButton>
+        {isAllProductOpen && (
+          <AllProducts setAllProductOpen={this.setAllProductOpen}></AllProducts>
+        )}
       </div>
     );
   }

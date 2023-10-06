@@ -13,6 +13,9 @@ export default {
     width: "70px",
     height: "70px",
     margin: "10px 5px 0px 10px",
+    backgroundPosition: "center center",
+    backgroundSize: "contain",
+    backgroundRepeat: "no-repeat",
   },
   productInfo: {
     boxSizing: "border-box",
@@ -49,6 +52,12 @@ export default {
     fontWeight: "325",
     cursor: "pointer",
   },
+  shadeContainer: {
+    height: "45px",
+    width: "280px",
+    position: "relative",
+    overflow: "hidden",
+  },
   shadeName: {
     height: "13px",
     width: "auto",
@@ -69,8 +78,8 @@ export default {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    height: "35px",
-    width: "35px",
+    height: "28px",
+    width: "32px",
     cursor: "pointer",
   },
   shade: {
@@ -79,26 +88,23 @@ export default {
     cursor: "pointer",
     clipPath: "polygon(0 20%, 50% 0, 100% 20%, 100% 80%, 50% 100%, 0 80%)",
   },
+
   sliderContainer: {
     position: "absolute",
     bottom: "0px",
     width: "100%",
-    height: "15px",
+    height: "10px",
     backgroundColor: "white",
     transition: "background-color 500ms linear",
   },
-  shadeContainer: {
-    height: "45px",
-    width: "280px",
-    position: "relative",
-    overflow: "hidden",
-  },
+
   slider: {
     position: "absolute",
     bottom: "0px",
     borderRadius: "10px",
     height: "5px",
     width: "100%",
+    left: "0px",
     backgroundColor: "white",
     transition: "background-color 200ms linear, height 200ms linear",
   },
