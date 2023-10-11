@@ -24,6 +24,19 @@ class App extends Component {
     console.log(shade);
     this.setState({ shadeSelected: shade });
   };
+  getOptions = () => {
+    let options = [];
+    Object.keys(data).map((key) => {
+      let products = [];
+
+      data[key].map((product) => {
+        products.push({ name: product.displayName });
+      });
+      options.push({ category: key, products: products });
+    });
+    console.log(options);
+    return options;
+  };
   render() {
     const { isInfoOpen, shadeSelected, isAllProductOpen } = this.state;
     return (
@@ -42,7 +55,10 @@ class App extends Component {
           setAllProductOpen={this.setAllProductOpen}
         ></OpenProductButton>
         {isAllProductOpen && (
-          <AllProducts setAllProductOpen={this.setAllProductOpen}></AllProducts>
+          <AllProducts
+            setAllProductOpen={this.setAllProductOpen}
+            category={this.getOptions()}
+          ></AllProducts>
         )}
       </div>
     );

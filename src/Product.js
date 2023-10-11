@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import data from "./data.js";
 import none from "./none.png";
 import style from "./styles/Product.style";
-const shades = data.lipColor[0].items;
+const shades = data["Lip Color"][0].items;
 class Product extends Component {
   constructor(props) {
     super(props);
