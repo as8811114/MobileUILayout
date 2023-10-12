@@ -2,16 +2,18 @@ import Radium from "radium";
 import React, { Component } from "react";
 import cancleButton from "./productInfoClose.png";
 import style from "./styles/AllProducts.style";
+import ProductList from "./ProductList";
 
 class AllProducts extends Component {
   constructor(props) {
     super(props);
-    this.categoryLength = 999;
+    this.categoryLength = 0;
   }
   state = {
     text: "All Products",
     isOpenOptions: false,
     search: "",
+    length: 0,
   };
   windowClickHandler = (e) => {
     const input = document.getElementById("input");
@@ -29,17 +31,38 @@ class AllProducts extends Component {
   componentDidMount = () => {
     window.addEventListener("click", this.windowClickHandler);
   };
+
+  componentDidUpdate() {
+    this.handleOptionContainer();
+  }
+  handleOptionContainer = () => {
+    if (this.state.isOpenOptions) {
+      const optionsContainer = document.getElementById("optionsContainer");
+
+      this.categoryLength = 0;
+      for (let x of optionsContainer.childNodes) {
+        const height = window.getComputedStyle(x).getPropertyValue("height");
+        this.categoryLength += parseInt(height);
+      }
+      if (this.categoryLength > 255) {
+        optionsContainer.style.overflowY = "scroll";
+      } else {
+        optionsContainer.style.overflow = "hidden";
+      }
+    }
+  };
   inputOnChange = (e) => {
     const selectCategory = document.getElementById("selectCategory");
     if (e.target.value.length > 0) {
       selectCategory.style.display = "none";
     } else {
-      selectCategory.style.display = "";
+      selectCategory.style.display = "block";
     }
     this.setState({ search: e.target.value });
   };
-  inputOnBlur = () => {
+  inputOnBlur = (e) => {
     const selectCategory = document.getElementById("selectCategory");
+    e.target.value = "";
     selectCategory.style.display = "block";
   };
   checkAllProduct = () => {
@@ -55,7 +78,6 @@ class AllProducts extends Component {
           cp.name.toUpperCase().includes(this.state.search.toUpperCase())
         ).length > 0
     );
-    this.categoryLength = result.length;
 
     return result;
   };
@@ -63,16 +85,15 @@ class AllProducts extends Component {
     let result = products.filter((cp) =>
       cp.name.toUpperCase().includes(this.state.search.toUpperCase())
     );
-    this.categoryLength += result.length;
+
     return result;
   };
-  optionIsOverContain = () => {
-    const optionsContainer = document.getElementById("optionsContainer");
-    console.log(optionsContainer);
+  selectOption = (e) => {
+    this.setState({ text: e.target.innerHTML });
   };
   render() {
     const { setAllProductOpen } = this.props;
-    const { text, isOpenOptions } = this.state;
+    const { text, isOpenOptions, length } = this.state;
     return (
       <div style={style.mainContainer}>
         <div style={style.blackBackground}></div>
@@ -116,22 +137,23 @@ class AllProducts extends Component {
               className={"select"}
               style={style.selectArrow}
             ></div>
+            {/* select button options */}
             {isOpenOptions && (
               <div
                 id={"optionsContainer"}
                 className={"select"}
-                style={{
-                  ...style.optionsContainer,
-                  overflowY: this.categoryLength >= 9 ? "scroll" : "hidden",
-                }}
+                style={style.optionsContainer}
               >
-                {this.filterCategory().length <= 0 && (
-                  <div className={"select"} style={style.category}>
-                    {"No results found"}
-                  </div>
-                )}
+                {this.filterCategory().length <= 0 &&
+                  !this.checkAllProduct() && (
+                    <div className={"select"} style={style.category}>
+                      {"No results found"}
+                    </div>
+                  )}
                 {this.checkAllProduct() && (
-                  <div style={style.allProductDiv}>{"All Products"}</div>
+                  <div onClick={this.selectOption} style={style.allProductDiv}>
+                    {"All Products"}
+                  </div>
                 )}
                 {this.filterCategory().map((c, i) => {
                   return (
@@ -139,9 +161,13 @@ class AllProducts extends Component {
                       <div className={"select"} style={style.category}>
                         {c.category}
                       </div>
-                      {this.filterProduct(c.products).map((p, i) => {
+                      {this.filterProduct(c.products).map((p, j) => {
                         return (
-                          <div key={p.name + i} style={style.productName}>
+                          <div
+                            onClick={this.selectOption}
+                            key={p.name + j}
+                            style={style.productName}
+                          >
                             {p.name}
                           </div>
                         );
@@ -152,6 +178,7 @@ class AllProducts extends Component {
               </div>
             )}
           </div>
+          <ProductList category={text}></ProductList>
         </div>
       </div>
     );

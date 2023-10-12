@@ -1,0 +1,42 @@
+export default {
+  mainContainter: {
+    width: "150px",
+    height: "225px",
+    boxSizing: "border-box",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "5px",
+  },
+  productImg: {
+    height: "130px",
+    width: "130px",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center center",
+    backgroundSize: "contain",
+  },
+  productName: {
+    width: "150px",
+    height: "34px",
+    fontFamily: "Gotham",
+    color: "#000",
+    fontSize: "14px",
+    textAlign: "center",
+  },
+  productShadeName: {
+    fontSize: "11px",
+    color: "#666",
+    fontFamily: "Gotham",
+  },
+  tryOnButton: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#FFC550",
+    width: "150px",
+    height: "34px",
+    fontFamily: "Gotham",
+    fontSize: "12px",
+    cursor: "pointer",
+  },
+};

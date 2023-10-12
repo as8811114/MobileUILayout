@@ -94,8 +94,8 @@ export default {
     borderLeft: "1px solid #C7C7C7",
     borderRight: "1px solid #C7C7C7",
     borderBottom: "1px solid #C7C7C7",
-
-    overflowY: "scroll",
+    zIndex: "100",
+    backgroundColor: "white",
   },
   category: {
     color: "#C7C7C7",
@@ -133,7 +133,7 @@ export default {
     alignItems: "center",
     color: "black",
     cursor: "pointer",
-
+    zIndex: "999",
     ":hover": {
       backgroundColor: "#878787",
     },
