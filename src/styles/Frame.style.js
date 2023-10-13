@@ -12,7 +12,7 @@ export default {
     backgroundRepeat: "no-repeat",
     backgroundSize: "contain",
     backgroundPosition: "center center",
-    zIndex: "999",
+
     height: "30px",
     width: "30px",
     position: "absolute",
@@ -24,7 +24,7 @@ export default {
     backgroundRepeat: "no-repeat",
     backgroundSize: "contain",
     backgroundPosition: "center center",
-    zIndex: "999",
+
     height: "30px",
     width: "30px",
     position: "absolute",
@@ -36,7 +36,7 @@ export default {
     backgroundRepeat: "no-repeat",
     backgroundSize: "contain",
     backgroundPosition: "center center",
-    zIndex: "999",
+
     height: "35px",
     width: "35px",
     position: "absolute",
@@ -48,7 +48,7 @@ export default {
     backgroundRepeat: "no-repeat",
     backgroundSize: "contain",
     backgroundPosition: "center center",
-    zIndex: "999",
+
     height: "35px",
     width: "35px",
     position: "absolute",
