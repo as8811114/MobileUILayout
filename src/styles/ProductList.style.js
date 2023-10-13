@@ -5,6 +5,7 @@ export default {
     marginTop: "20px",
     boxSizing: "border-box",
     position: "relative",
+    overflowY: "hidden",
   },
   productsContainer: {
     width: "100%",
@@ -13,5 +14,23 @@ export default {
     display: "flex",
     flexWrap: "wrap",
     gap: "25px",
+  },
+  sliderContainer: {
+    position: "absolute",
+    right: "0px",
+    height: "100%",
+    width: "10px",
+    backgroundColor: "white",
+    transition: "background-color 500ms linear",
+  },
+  slider: {
+    position: "absolute",
+    right: "0px",
+    borderRadius: "10px",
+    width: "5px",
+    height: "100%",
+    top: "0px",
+    backgroundColor: "white",
+    transition: "background-color 200ms linear, height 200ms linear",
   },
 };

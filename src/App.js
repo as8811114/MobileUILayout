@@ -24,11 +24,11 @@ class App extends Component {
     console.log(shade);
     this.setState({ shadeSelected: shade });
   };
+  //handle select button options
   getOptions = () => {
     let options = [];
     Object.keys(data).map((key) => {
       let products = [];
-
       data[key].map((product) => {
         products.push({ name: product.displayName });
       });

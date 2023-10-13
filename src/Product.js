@@ -3,7 +3,17 @@ import React, { Component } from "react";
 import data from "./data.js";
 import none from "./none.png";
 import style from "./styles/Product.style";
-const shades = data["Lip Color"][0].items;
+const shades = [
+  ...data["Lip Color"][0].items,
+  ...data["Lip Color"][1].items,
+  ...data["Lip Color"][1].items,
+  ...data["Lip Color"][1].items,
+  ...data["Lip Color"][1].items,
+  ...data["Lip Color"][1].items,
+  ...data["Lip Color"][1].items,
+  ...data["Lip Color"][1].items,
+  ...data["Lip Color"][1].items,
+];
 class Product extends Component {
   constructor(props) {
     super(props);
@@ -26,12 +36,17 @@ class Product extends Component {
 
     if (triggerContainer === "shade") {
       const buttonContainer = document.getElementById("shadeButtonContainer");
+      console.log(window.getComputedStyle(buttonContainer).width);
       //sliderWidth is based on the width of buttonContainer
-      const sliderWidth = (
-        280 -
-        (parseInt(window.getComputedStyle(buttonContainer).width) / 280 - 1) *
-          280
-      ).toFixed(2);
+      const viewPercentage =
+        280 / parseInt(window.getComputedStyle(buttonContainer).width);
+      const sliderWidth = (viewPercentage * 280).toFixed(2);
+      // const sliderWidth = (
+      //   280 -
+      //   (parseInt(window.getComputedStyle(buttonContainer).width) / 280 - 1) *
+      //     280
+      // ).toFixed(2);
+      console.log(`sliderWidth: ${sliderWidth}`);
       this.offsetSpace = 280 - sliderWidth;
 
       console.log(sliderWidth);
@@ -65,6 +80,7 @@ class Product extends Component {
     if (this.state.isDragging) {
       const slider = document.getElementById("slider");
       const shades = document.getElementById("shadeButtonContainer");
+      console.log(slider.style.width);
       this.currentXPosition = e.clientX;
       //mouse offsetX
       const offsetX = this.currentXPosition - this.downXPosition;
@@ -81,7 +97,12 @@ class Product extends Component {
         sliderPosition = (this.offsetSpace / 280) * 100;
       }
       slider.style.left = sliderPosition + "%";
-      shades.style.left = -1 * sliderPosition + "%";
+      const viewOffsetSpace =
+        parseFloat(window.getComputedStyle(shades).width).toFixed(2) - 280;
+      const sliderOffsetSpace = 280 - parseFloat(slider.style.width).toFixed(2);
+      const movePercentage = viewOffsetSpace / sliderOffsetSpace;
+
+      shades.style.left = -1 * (sliderPosition * movePercentage) + "%";
     }
   };
   handleSliderContainterDown = (e) => {
