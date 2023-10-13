@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/mobileuilayout/static/css/main.9b4f7208.css",
+    "main.js": "/mobileuilayout/static/js/main.4924a2c3.js",
+    "static/media/Gotham-Book.otf": "/mobileuilayout/static/media/Gotham-Book.e37cf59954e32a3f5401.otf",
+    "static/media/background.jpg": "/mobileuilayout/static/media/background.27614082c0215a6f422e.jpg",
+    "static/media/tempImg.jpg": "/mobileuilayout/static/media/tempImg.609563327c2d959aec95.jpg",
+    "index.html": "/mobileuilayout/index.html",
+    "main.9b4f7208.css.map": "/mobileuilayout/static/css/main.9b4f7208.css.map",
+    "main.4924a2c3.js.map": "/mobileuilayout/static/js/main.4924a2c3.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9b4f7208.css",
+    "static/js/main.4924a2c3.js"
+  ]
+}
