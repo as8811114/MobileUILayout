@@ -21,7 +21,7 @@ export default {
     height: "100%",
     width: "10px",
     backgroundColor: "white",
-    transition: "background-color 500ms linear",
+    transition: "background-color 200ms linear",
   },
   slider: {
     position: "absolute",

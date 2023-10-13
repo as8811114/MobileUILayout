@@ -26,6 +26,9 @@ class Product extends Component {
   componentDidMount() {
     window.addEventListener("pointermove", this.handleSliderPointerMove);
   }
+  componentWillUnmount = () => {
+    window.removeEventListener("pointermove", this.handleSliderPointerMove);
+  };
   componentDidUpdate(prevProps, prevState) {
     console.log("update");
   }
@@ -41,12 +44,6 @@ class Product extends Component {
       const viewPercentage =
         280 / parseInt(window.getComputedStyle(buttonContainer).width);
       const sliderWidth = (viewPercentage * 280).toFixed(2);
-      // const sliderWidth = (
-      //   280 -
-      //   (parseInt(window.getComputedStyle(buttonContainer).width) / 280 - 1) *
-      //     280
-      // ).toFixed(2);
-      console.log(`sliderWidth: ${sliderWidth}`);
       this.offsetSpace = 280 - sliderWidth;
 
       console.log(sliderWidth);
@@ -111,16 +108,43 @@ class Product extends Component {
       const shades = document.getElementById("shadeButtonContainer");
       const sliderPosition = (parseFloat(slider.style.left) * 280) / 100;
       const mousePosition = e.nativeEvent.offsetX;
+      const movePercentage = this.getMovePercentage();
+      const sliderBottom =
+        ((280 - parseFloat(slider.style.width).toFixed(2)) / 280) * 100;
+      let newSliderLeft;
       if (sliderPosition < mousePosition) {
-        slider.style.left = (this.offsetSpace / 280) * 100 + "%";
-        shades.style.left = -1 * (this.offsetSpace / 280) * 100 + "%";
+        if (
+          parseFloat(parseFloat(slider.style.left) + 10).toFixed(2) >=
+          sliderBottom
+        ) {
+          newSliderLeft = sliderBottom;
+        } else
+          newSliderLeft = parseFloat(
+            parseFloat(slider.style.left) + 10
+          ).toFixed(2);
+        slider.style.left = newSliderLeft + "%";
+        shades.style.left = -1 * newSliderLeft * movePercentage + "%";
       } else {
-        slider.style.left = "0%";
-        shades.style.left = "0%";
+        if (parseFloat(parseFloat(slider.style.left) - 10).toFixed(2) <= 0) {
+          newSliderLeft = 0;
+        } else
+          newSliderLeft = parseFloat(
+            parseFloat(slider.style.left) - 10
+          ).toFixed(2);
+        slider.style.left = newSliderLeft + "%";
+        this.oldLeft = newSliderLeft;
+        shades.style.left = -1 * newSliderLeft * movePercentage + "%";
       }
     }
   };
-
+  getMovePercentage = () => {
+    const slider = document.getElementById("slider");
+    const shades = document.getElementById("shadeButtonContainer");
+    const viewOffsetSpace =
+      parseFloat(window.getComputedStyle(shades).width).toFixed(2) - 280;
+    const sliderOffsetSpace = 280 - parseFloat(slider.style.width).toFixed(2);
+    return viewOffsetSpace / sliderOffsetSpace;
+  };
   render() {
     const { shadeSelected, handleSelectShade } = this.props;
     return (
