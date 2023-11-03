@@ -32,9 +32,9 @@ class AllProducts extends Component {
     window.addEventListener("click", this.windowClickHandler);
   };
 
-  componentDidUpdate() {
+  componentDidUpdate = () => {
     this.handleOptionContainer();
-  }
+  };
   handleOptionContainer = () => {
     if (this.state.isOpenOptions) {
       const optionsContainer = document.getElementById("optionsContainer");
@@ -78,22 +78,26 @@ class AllProducts extends Component {
           cp.name.toUpperCase().includes(this.state.search.toUpperCase())
         ).length > 0
     );
-
     return result;
   };
   filterProduct = (products) => {
     let result = products.filter((cp) =>
       cp.name.toUpperCase().includes(this.state.search.toUpperCase())
     );
-
     return result;
   };
   selectOption = (e) => {
     this.setState({ text: e.target.innerHTML });
   };
   render() {
-    const { setAllProductOpen } = this.props;
-    const { text, isOpenOptions, length } = this.state;
+    const {
+      setAllProductOpen,
+      categorySelected,
+      handleSelectCategory,
+      handleSelectItem,
+      productList,
+    } = this.props;
+    const { isOpenOptions } = this.state;
     return (
       <div style={style.mainContainer}>
         <div style={style.blackBackground}></div>
@@ -121,7 +125,7 @@ class AllProducts extends Component {
                 cursor: isOpenOptions ? "text" : "default",
               }}
             >
-              {text}
+              {categorySelected}
             </div>
             <input
               id={"input"}
@@ -151,7 +155,11 @@ class AllProducts extends Component {
                     </div>
                   )}
                 {this.checkAllProduct() && (
-                  <div onClick={this.selectOption} style={style.allProductDiv}>
+                  <div
+                    onClick={handleSelectCategory}
+                    style={style.allProductDiv}
+                    name={"All Products"}
+                  >
                     {"All Products"}
                   </div>
                 )}
@@ -164,9 +172,10 @@ class AllProducts extends Component {
                       {this.filterProduct(c.products).map((p, j) => {
                         return (
                           <div
-                            onClick={this.selectOption}
+                            onClick={handleSelectCategory}
                             key={p.name + j}
                             style={style.productName}
+                            name={p.name}
                           >
                             {p.name}
                           </div>
@@ -178,7 +187,11 @@ class AllProducts extends Component {
               </div>
             )}
           </div>
-          <ProductList category={text}></ProductList>
+          <ProductList
+            list={productList}
+            setAllProductOpen={setAllProductOpen}
+            handleSelectItem={handleSelectItem}
+          ></ProductList>
         </div>
       </div>
     );

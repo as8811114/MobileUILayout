@@ -3,17 +3,7 @@ import React, { Component } from "react";
 import data from "./data.js";
 import none from "./none.png";
 import style from "./styles/Product.style";
-const shades = [
-  ...data["Lip Color"][0].items,
-  ...data["Lip Color"][1].items,
-  ...data["Lip Color"][1].items,
-  ...data["Lip Color"][1].items,
-  ...data["Lip Color"][1].items,
-  ...data["Lip Color"][1].items,
-  ...data["Lip Color"][1].items,
-  ...data["Lip Color"][1].items,
-  ...data["Lip Color"][1].items,
-];
+import categoryTable from "./seriesTable.js";
 class Product extends Component {
   constructor(props) {
     super(props);
@@ -146,18 +136,18 @@ class Product extends Component {
     return viewOffsetSpace / sliderOffsetSpace;
   };
   render() {
-    const { shadeSelected, handleSelectShade } = this.props;
+    const { shadeSelected, handleSelectShade, seriesSelected } = this.props;
     return (
       <div style={style.mainContainer}>
         <div
           style={{
             ...style.productImage,
-            backgroundImage: `url(${shades[0].url})`,
+            backgroundImage: `url(${seriesSelected.items[0].url})`,
           }}
         ></div>
         <div style={style.productInfo}>
           <div style={style.titleInfoContainer}>
-            <div style={style.title}>{"Goodness Glows Tinted Mositurizer"}</div>
+            <div style={style.title}>{seriesSelected.fullName}</div>
             <div
               onClick={() => {
                 this.props.setInfoOpen(true);
@@ -213,7 +203,7 @@ class Product extends Component {
                   <img src={none}></img>
                 </div>
               )}
-              {shades.map((shade, i) => {
+              {seriesSelected.items.map((shade, i) => {
                 if (shade.GUID === shadeSelected.GUID) {
                   return (
                     <div
@@ -259,7 +249,7 @@ class Product extends Component {
                 }
               })}
             </div>
-            {shades.length > 6 && (
+            {seriesSelected.items.length > 6 && (
               <div
                 id={"sliderContainer"}
                 style={style.sliderContainer}

@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import style from "./styles/ProductInfo.style";
 import cancelButton from "./productInfoClose.png";
-import productImage from "./tempImg.jpg";
+
 class ProductInfo extends Component {
   constructor(props) {
     super(props);
   }
   state = {};
   render() {
+    const { seriesSelected } = this.props;
     return (
       <div style={style.mainContainer}>
         <div style={style.upperBackground}></div>
@@ -22,19 +23,22 @@ class ProductInfo extends Component {
           </div>
           <div style={style.title}>PRODUCT INFO</div>
           <div style={style.imageTitleContainer}>
-            <img src={productImage} style={style.productImage}></img>
+            <div
+              style={{
+                ...style.productImage,
+                backgroundImage: `url(${seriesSelected.items[0].url})`,
+              }}
+            ></div>
+
             <div style={style.productNameShadeContainer}>
-              <div style={style.productName}>
-                Goodness Glows Tinted Moisturizer
-              </div>
-              <div style={style.productShade}>6 Shades</div>
+              <div style={style.productName}>{seriesSelected.fullName}</div>
+              <div
+                style={style.productShade}
+              >{`${seriesSelected.items.length} Shades`}</div>
             </div>
           </div>
           <div style={style.productDescription}>
-            Looking for lightweight, sheer coverage plus all-day moisture? It’s
-            here! Made with green tea and packed with vitamins and antioxidants,
-            this tinted moisturizer is ideal for those looking for
-            lighter-than-foundation coverage that hydrates and protects.
+            {seriesSelected.description}
           </div>
         </div>
       </div>

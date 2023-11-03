@@ -1,27 +1,36 @@
 import React, { Component } from "react";
 import style from "./styles/ShowProduct.style";
-import data from "./data";
-const testData = data["Lip Color"][0]["items"][0];
-const testCategory = data["Lip Color"][0];
+import categoryTable from "./categoryTable";
 class ShowProduct extends Component {
   constructor(props) {
     super(props);
   }
-  componentDidMount() {}
-  state = {};
-
+  handleTryOnClick = (item) => {
+    this.props.handleSelectItem(item);
+    this.props.setAllProductOpen(false);
+  };
   render() {
+    const { info } = this.props;
     return (
       <div style={style.mainContainter}>
         <div
           style={{
             ...style.productImg,
-            backgroundImage: `url("${testData.url}")`,
+            backgroundImage: `url("${info.url}")`,
           }}
         ></div>
-        <div style={style.productName}>{testCategory.displayName}</div>
-        <div style={style.productShadeName}>{testData.name}</div>
-        <div style={style.tryOnButton}>TRY ON</div>
+        <div style={style.productName}>
+          {categoryTable[info.GUID.slice(0, -3)]}
+        </div>
+        <div style={style.productShadeName}>{info.name}</div>
+        <div
+          style={style.tryOnButton}
+          onClick={() => {
+            this.handleTryOnClick(info);
+          }}
+        >
+          TRY ON
+        </div>
       </div>
     );
   }

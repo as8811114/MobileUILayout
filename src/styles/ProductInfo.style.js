@@ -55,6 +55,9 @@ export default {
   productImage: {
     width: "70px",
     height: "70px",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center center",
+    backgroundSize: "contain",
   },
   productName: {
     fontFamily: "Gotham",

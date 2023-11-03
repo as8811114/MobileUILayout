@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import style from "./styles/ProductList.style";
 import ShowProduct from "./ShowProduct";
+
 class ProductList extends Component {
   constructor(props) {
     super(props);
@@ -16,7 +17,25 @@ class ProductList extends Component {
   componentWillUnmount() {
     window.removeEventListener("pointermove", this.handleSliderPointerMove);
   }
+  componentDidUpdate = (prevProps) => {
+    if (this.props.list !== prevProps.list) {
+      this.updateListSlider();
+    }
+  };
+  updateListSlider = () => {
+    const slider = document.getElementById("productSlider");
+    const shades = document.getElementById("productContainer");
+    this.downYPosition = 0;
+    this.currentYPosition = 0;
+    this.offsetSpace = 0;
+    this.oldTop = 0;
+    slider.style.top = "0%";
+    shades.style.top = "0%";
+    this.handleSliderShow("container", "enter");
+  };
   handleSliderShow = (triggerContainer, action) => {
+    console.log(triggerContainer);
+    console.log(action);
     const sliderContainer = document.getElementById("productSliderContainer");
     const slider = document.getElementById("productSlider");
     if (!sliderContainer || !slider) return;
@@ -124,6 +143,7 @@ class ProductList extends Component {
   handleScrollSlider = (e) => {
     const slider = document.getElementById("productSlider");
     const shades = document.getElementById("productContainer");
+
     let offsetPercent;
     // scoll up
     if (e.deltaY < 0) {
@@ -133,12 +153,12 @@ class ProductList extends Component {
     else if (e.deltaY > 0) {
       offsetPercent = (e.deltaY * 10) / 325;
     }
-
+    // console.log(this.oldTop);
     let sliderPosition = (Number(this.oldTop) + Number(offsetPercent)).toFixed(
       2
     );
     // console.log(this.oldTop);
-    // console.log(sliderPosition);
+    console.log(sliderPosition);
 
     if (sliderPosition < 0) sliderPosition = 0;
     else if (sliderPosition > (this.offsetSpace / 325) * 100) {
@@ -159,8 +179,9 @@ class ProductList extends Component {
     const sliderOffsetSpace = 325 - parseFloat(slider.style.height).toFixed(2);
     return viewOffsetSpace / sliderOffsetSpace;
   };
+
   render() {
-    const { category } = this.props;
+    const { list, setAllProductOpen, handleSelectItem } = this.props;
     return (
       <div
         onWheel={this.handleScrollSlider}
@@ -173,8 +194,14 @@ class ProductList extends Component {
         style={style.mainContainter}
       >
         <div id={"productContainer"} style={style.productsContainer}>
-          {[0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4].map((d) => {
-            return <ShowProduct></ShowProduct>;
+          {list.map((info) => {
+            return (
+              <ShowProduct
+                info={info}
+                setAllProductOpen={setAllProductOpen}
+                handleSelectItem={handleSelectItem}
+              ></ShowProduct>
+            );
           })}
         </div>
         <div
