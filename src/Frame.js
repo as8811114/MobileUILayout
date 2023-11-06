@@ -11,6 +11,7 @@ class Frame extends Component {
   }
   state = {};
   render() {
+    const { handleSelectShade } = this.props;
     return (
       <div style={style.mainContainer}>
         <img style={style.backgroundImage} src={background}></img>
@@ -21,6 +22,9 @@ class Frame extends Component {
           style={{ ...style.cancelButton, backgroundImage: `url(${cancel})` }}
         ></div>
         <div
+          onClick={() => {
+            handleSelectShade({});
+          }}
           style={{ ...style.resetButton, backgroundImage: `url(${reset})` }}
         ></div>
         <div

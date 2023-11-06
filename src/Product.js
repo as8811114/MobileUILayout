@@ -1,9 +1,7 @@
 import Radium from "radium";
 import React, { Component } from "react";
-import data from "./data.js";
 import none from "./none.png";
 import style from "./styles/Product.style";
-import categoryTable from "./seriesTable.js";
 class Product extends Component {
   constructor(props) {
     super(props);
@@ -19,9 +17,23 @@ class Product extends Component {
   componentWillUnmount = () => {
     window.removeEventListener("pointermove", this.handleSliderPointerMove);
   };
-  componentDidUpdate(prevProps, prevState) {
-    console.log("update");
-  }
+  componentDidUpdate = (prevProps) => {
+    if (this.props.seriesSelected !== prevProps.seriesSelected) {
+      this.updateListSlider();
+    }
+  };
+  updateListSlider = () => {
+    const slider = document.getElementById("slider");
+    const shades = document.getElementById("shadeButtonContainer");
+    this.downXPosition = 0;
+    this.currentXPosition = 0;
+    this.offsetSpace = 0;
+    this.oldLeft = 0;
+    if (slider) slider.style.left = "0%";
+    if (shades) shades.style.left = "0%";
+    this.handleSliderShow("shade", "enter");
+    this.handleSliderShow("shade", "leave");
+  };
   handleSliderShow = (triggerContainer, action) => {
     const sliderContainer = document.getElementById("sliderContainer");
     const slider = document.getElementById("slider");
@@ -59,7 +71,7 @@ class Product extends Component {
   };
   handleSliderPointerUp = () => {
     this.setState({ isDragging: false });
-    this.downXPosition = this.currentXPosition;
+    // this.downXPosition = this.currentXPosition;
     const slider = document.getElementById("slider");
     this.oldLeft = parseFloat(slider.style.left);
   };
@@ -84,11 +96,8 @@ class Product extends Component {
         sliderPosition = (this.offsetSpace / 280) * 100;
       }
       slider.style.left = sliderPosition + "%";
-      const viewOffsetSpace =
-        parseFloat(window.getComputedStyle(shades).width).toFixed(2) - 280;
-      const sliderOffsetSpace = 280 - parseFloat(slider.style.width).toFixed(2);
-      const movePercentage = viewOffsetSpace / sliderOffsetSpace;
 
+      const movePercentage = this.getMovePercentage(slider, shades);
       shades.style.left = -1 * (sliderPosition * movePercentage) + "%";
     }
   };
@@ -98,7 +107,7 @@ class Product extends Component {
       const shades = document.getElementById("shadeButtonContainer");
       const sliderPosition = (parseFloat(slider.style.left) * 280) / 100;
       const mousePosition = e.nativeEvent.offsetX;
-      const movePercentage = this.getMovePercentage();
+      const movePercentage = this.getMovePercentage(slider, shades);
       const sliderBottom =
         ((280 - parseFloat(slider.style.width).toFixed(2)) / 280) * 100;
       let newSliderLeft;
@@ -127,9 +136,7 @@ class Product extends Component {
       }
     }
   };
-  getMovePercentage = () => {
-    const slider = document.getElementById("slider");
-    const shades = document.getElementById("shadeButtonContainer");
+  getMovePercentage = (slider, shades) => {
     const viewOffsetSpace =
       parseFloat(window.getComputedStyle(shades).width).toFixed(2) - 280;
     const sliderOffsetSpace = 280 - parseFloat(slider.style.width).toFixed(2);
@@ -188,7 +195,7 @@ class Product extends Component {
                       }}
                       style={{ ...style.none, transform: "scale(0.7)" }}
                     >
-                      <img src={none}></img>
+                      <img src={none} alt={""}></img>
                     </div>
                   </div>
                 </div>
@@ -200,7 +207,7 @@ class Product extends Component {
                   }}
                   style={{ ...style.none }}
                 >
-                  <img src={none}></img>
+                  <img src={none} alt={""}></img>
                 </div>
               )}
               {seriesSelected.items.map((shade, i) => {

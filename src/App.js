@@ -66,9 +66,6 @@ class App extends Component {
     let productInfo = data[series].find((d) => d.displayName === category);
     this.handleSelectShade(item);
     this.setState({ seriesSelected: productInfo });
-    console.log(`series:${series}\ncategory:${category}`);
-    console.log(productInfo);
-    console.log(item);
   };
   //handle select button options
   getOptions = () => {
@@ -94,7 +91,7 @@ class App extends Component {
     return (
       <div style={style.mainContainer}>
         <Header></Header>
-        <Frame></Frame>
+        <Frame handleSelectShade={this.handleSelectShade}></Frame>
         {isInfoOpen && (
           <ProductInfo
             setInfoOpen={this.setInfoOpen}

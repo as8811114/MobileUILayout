@@ -25,6 +25,7 @@ class ProductList extends Component {
   updateListSlider = () => {
     const slider = document.getElementById("productSlider");
     const shades = document.getElementById("productContainer");
+    if (!slider) return;
     this.downYPosition = 0;
     this.currentYPosition = 0;
     this.offsetSpace = 0;
@@ -34,17 +35,12 @@ class ProductList extends Component {
     this.handleSliderShow("container", "enter");
   };
   handleSliderShow = (triggerContainer, action) => {
-    console.log(triggerContainer);
-    console.log(action);
     const sliderContainer = document.getElementById("productSliderContainer");
     const slider = document.getElementById("productSlider");
     if (!sliderContainer || !slider) return;
     if (triggerContainer === "container") {
       const productContainer = document.getElementById("productContainer");
       //sliderHeight is based on the width of productContainer
-      console.log(
-        parseInt(window.getComputedStyle(productContainer).height) / 325
-      );
       const viewPercentage =
         325 / parseInt(window.getComputedStyle(productContainer).height);
       const sliderHeight = (viewPercentage * 325).toFixed(2);
@@ -143,23 +139,21 @@ class ProductList extends Component {
   handleScrollSlider = (e) => {
     const slider = document.getElementById("productSlider");
     const shades = document.getElementById("productContainer");
+    if (!slider) return;
+    const sliderHeight = parseFloat(window.getComputedStyle(slider).height);
 
     let offsetPercent;
     // scoll up
     if (e.deltaY < 0) {
-      offsetPercent = (e.deltaY * 10) / 325;
+      offsetPercent = ((e.deltaY / 5) * sliderHeight) / 325;
     }
     // scoll down
     else if (e.deltaY > 0) {
-      offsetPercent = (e.deltaY * 10) / 325;
+      offsetPercent = ((e.deltaY / 5) * sliderHeight) / 325;
     }
-    // console.log(this.oldTop);
     let sliderPosition = (Number(this.oldTop) + Number(offsetPercent)).toFixed(
       2
     );
-    // console.log(this.oldTop);
-    console.log(sliderPosition);
-
     if (sliderPosition < 0) sliderPosition = 0;
     else if (sliderPosition > (this.offsetSpace / 325) * 100) {
       sliderPosition = (this.offsetSpace / 325) * 100;
@@ -197,6 +191,7 @@ class ProductList extends Component {
           {list.map((info) => {
             return (
               <ShowProduct
+                key={info.GUID}
                 info={info}
                 setAllProductOpen={setAllProductOpen}
                 handleSelectItem={handleSelectItem}
