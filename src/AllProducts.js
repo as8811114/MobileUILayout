@@ -71,6 +71,7 @@ class AllProducts extends Component {
       "All Products".toUpperCase().includes(this.state.search.toUpperCase())
     );
   };
+  //To show different categories in options by keywords
   filterCategory = () => {
     let result = this.props.category.filter(
       (c) =>
@@ -80,6 +81,7 @@ class AllProducts extends Component {
     );
     return result;
   };
+  //To show different categories in options by keywords
   filterProduct = (products) => {
     let result = products.filter((cp) =>
       cp.name.toUpperCase().includes(this.state.search.toUpperCase())

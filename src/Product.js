@@ -1,4 +1,3 @@
-import Radium from "radium";
 import React, { Component } from "react";
 import none from "./none.png";
 import style from "./styles/Product.style";
@@ -22,6 +21,8 @@ class Product extends Component {
       this.updateListSlider();
     }
   };
+
+  //Reset the sliderBar width and position when user change different series product
   updateListSlider = () => {
     const slider = document.getElementById("slider");
     const shades = document.getElementById("shadeButtonContainer");
@@ -34,6 +35,8 @@ class Product extends Component {
     this.handleSliderShow("shade", "enter");
     this.handleSliderShow("shade", "leave");
   };
+
+  //Handle sliderBar show when mouse hover on shadeButtonContainer or sliderContainer
   handleSliderShow = (triggerContainer, action) => {
     const sliderContainer = document.getElementById("sliderContainer");
     const slider = document.getElementById("slider");
@@ -41,14 +44,14 @@ class Product extends Component {
 
     if (triggerContainer === "shade") {
       const buttonContainer = document.getElementById("shadeButtonContainer");
-      console.log(window.getComputedStyle(buttonContainer).width);
+
       //sliderWidth is based on the width of buttonContainer
       const viewPercentage =
         280 / parseInt(window.getComputedStyle(buttonContainer).width);
       const sliderWidth = (viewPercentage * 280).toFixed(2);
       this.offsetSpace = 280 - sliderWidth;
 
-      console.log(sliderWidth);
+      //If mouse is on shadeButtonContainer show small slider otherwise show large slider
       if (action === "enter") {
         slider.style.width = sliderWidth + "px";
         slider.style.backgroundColor = "gray";
@@ -71,15 +74,14 @@ class Product extends Component {
   };
   handleSliderPointerUp = () => {
     this.setState({ isDragging: false });
-    // this.downXPosition = this.currentXPosition;
     const slider = document.getElementById("slider");
     this.oldLeft = parseFloat(slider.style.left);
   };
+  //handle move sliderBar
   handleSliderPointerMove = (e) => {
     if (this.state.isDragging) {
       const slider = document.getElementById("slider");
       const shades = document.getElementById("shadeButtonContainer");
-      console.log(slider.style.width);
       this.currentXPosition = e.clientX;
       //mouse offsetX
       const offsetX = this.currentXPosition - this.downXPosition;
@@ -89,18 +91,20 @@ class Product extends Component {
       let sliderPosition = (
         Number(this.oldLeft) + Number(offsetPercent)
       ).toFixed(2);
+      // handle slider offset don't move out of border
       // if sliderPostiion is bigger than offsetSpace then set it to 0
       if (sliderPosition < 0) sliderPosition = 0;
       //if sliderPosition is bigger than offsetSpace then set it to biggest position
       else if (sliderPosition > (this.offsetSpace / 280) * 100) {
         sliderPosition = (this.offsetSpace / 280) * 100;
       }
-      slider.style.left = sliderPosition + "%";
-
+      //Get movePercentage to get slider offset percentage
       const movePercentage = this.getMovePercentage(slider, shades);
+      slider.style.left = sliderPosition + "%";
       shades.style.left = -1 * (sliderPosition * movePercentage) + "%";
     }
   };
+  //handle click sliderBarContainer
   handleSliderContainterDown = (e) => {
     if (e.target.id === "sliderContainer") {
       const slider = document.getElementById("slider");
@@ -136,7 +140,9 @@ class Product extends Component {
       }
     }
   };
+
   getMovePercentage = (slider, shades) => {
+    //get shadesButtonContainer and sliderBarContainer offset scale
     const viewOffsetSpace =
       parseFloat(window.getComputedStyle(shades).width).toFixed(2) - 280;
     const sliderOffsetSpace = 280 - parseFloat(slider.style.width).toFixed(2);
@@ -289,4 +295,4 @@ class Product extends Component {
   }
 }
 
-export default Radium(Product);
+export default Product;

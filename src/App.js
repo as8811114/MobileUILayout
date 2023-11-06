@@ -1,14 +1,14 @@
 import { Component } from "react";
+import AllProducts from "./AllProducts.js";
+import Frame from "./Frame.js";
+import Header from "./Header.js";
+import OpenProductButton from "./OpenProductButton.js";
+import Product from "./Product.js";
+import ProductInfo from "./ProductInfo.js";
+import categoryTable from "./categoryTable.js";
 import data from "./data.js";
 import seriesTable from "./seriesTable.js";
-import categoryTable from "./categoryTable.js";
 import style from "./styles/App.styles.js";
-import Header from "./Header.js";
-import Frame from "./Frame.js";
-import Product from "./Product.js";
-import AllProducts from "./AllProducts.js";
-import ProductInfo from "./ProductInfo.js";
-import OpenProductButton from "./OpenProductButton.js";
 class App extends Component {
   constructor(props) {
     super(props);
@@ -24,12 +24,12 @@ class App extends Component {
   componentDidMount = () => {
     this.setProductList("All Products");
   };
+  //set what products be showed in ProductList by category
   setProductList = (category) => {
-    console.log(category);
     let categoryID = Object.keys(categoryTable).find(
       (key) => categoryTable[key] === category
     );
-    console.log(categoryID);
+
     let list = [];
     for (let x of Object.keys(data)) {
       for (let y of data[x]) {
@@ -40,7 +40,6 @@ class App extends Component {
         list.push(...pushItem);
       }
     }
-    console.log(list);
     this.setState({ productList: list });
   };
   setInfoOpen = (state) => {
@@ -51,15 +50,14 @@ class App extends Component {
   };
 
   handleSelectShade = (shade) => {
-    console.log(shade);
     this.setState({ shadeSelected: shade });
   };
   handleSelectCategory = (e) => {
     const category = e.target.getAttribute("name");
-
     this.setProductList(category);
     this.setState({ categorySelected: category });
   };
+  //handle productList tryon button to set shade that user click and update the series be selected
   handleSelectItem = (item) => {
     let category = categoryTable[item.GUID.slice(0, -3)];
     let series = seriesTable[item.GUID.split("_")[2]];

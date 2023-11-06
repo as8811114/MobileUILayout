@@ -46,8 +46,6 @@ class ProductList extends Component {
       const sliderHeight = (viewPercentage * 325).toFixed(2);
 
       this.offsetSpace = 325 - sliderHeight;
-
-      console.log(sliderHeight);
       if (action === "enter") {
         slider.style.height = sliderHeight + "px";
         slider.style.backgroundColor = "gray";
